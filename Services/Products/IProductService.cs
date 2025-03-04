@@ -1,4 +1,7 @@
-﻿namespace App.Services.Products
+﻿using App.Services.Products.Create;
+using App.Services.Products.Update;
+
+namespace App.Services.Products
 {
     public interface IProductService
     {
@@ -9,5 +12,6 @@
         Task<ServiceResult<CreateProductResponse>> CreateAsync(CreateProductRequest request);
         Task<ServiceResult> UpdateAsync(UpdateProductRequest request);
         Task<ServiceResult> DeleteAsync(int id);
+        Task<ServiceResult> UpdateStockAsync(UpdateProductStockRequest updateProductStockRequest);
     }
 }
