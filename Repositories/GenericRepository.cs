@@ -8,7 +8,7 @@ namespace App.Repositories
         protected AppDbContext Context = context;
 
         private readonly DbSet<T> _dbSet=context.Set<T>();
-        public async ValueTask AddAsync(T entity)=> await _dbSet.AddAsync(entity);
+        public async ValueTask AddAsync(T entity)=>await _dbSet.AddAsync(entity);
 
         public void Delete(T entity)=>_dbSet.Remove(entity);
 

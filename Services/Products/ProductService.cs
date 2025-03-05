@@ -3,6 +3,7 @@ using App.Repositories.Products;
 using App.Services.ExceptionHandlers;
 using App.Services.Products.Create;
 using App.Services.Products.Update;
+using App.Services.Products.UpdateStock;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -77,7 +78,7 @@ namespace App.Services.Products
         public async Task<ServiceResult<CreateProductResponse>> CreateAsync(CreateProductRequest request)
         {
 
-            throw new Exception("Kritik seviyede bir hata meydana geldi");
+            //throw new Exception("Kritik seviyede bir hata meydana geldi");
 
             //2. yol async çalışır
             var anyProduct = await productRepository.Where(x => x.Name == request.Name).AnyAsync();
@@ -89,12 +90,14 @@ namespace App.Services.Products
             //if (!validationResult.IsValid)
             //    return ServiceResult<CreateProductResponse>.Fail(validationResult.Errors.Select(x=>x.ErrorMessage).ToList());
 
-            var product = new Product()
-            {
-                Name = request.Name,
-                Price = request.Price,
-                Stock = request.Stock,
-            };
+            //var product = new Product()
+            //{
+            //    Name = request.Name,
+            //    Price = request.Price,
+            //    Stock = request.Stock,
+            //};
+
+            var product = mapper.Map<Product>(request);
 
             await productRepository.AddAsync(product);
             await unitOfWork.SaveChangeAsync();
@@ -114,9 +117,17 @@ namespace App.Services.Products
             if (product is null)
                 return ServiceResult.Fail("Product not found", HttpStatusCode.NotFound);
 
-            product.Name = request.Name;
-            product.Price = request.Price;
-            product.Stock = request.Stock;
+            var isProductNameExist = await productRepository.Where(x => x.Name == request.Name && x.Id !=product.Id).AnyAsync();
+            if (isProductNameExist)
+                return ServiceResult.Fail("Product name is exists", HttpStatusCode.BadRequest);
+
+            //product.Name = request.Name;
+            //product.Price = request.Price;
+            //product.Stock = request.Stock;
+
+
+            //Burada elimizde zaten bir product nesnesi var (getbyid ile çektiğimiz) bu yüzden ekstra generic vermedik direkt parantez içinde tanımını yaptık.
+            product = mapper.Map(request,product);
 
             productRepository.Update(product);
             await unitOfWork.SaveChangeAsync();
