@@ -1,4 +1,6 @@
-﻿using App.Services.Products;
+﻿using App.Repositories.Products;
+using App.Services.Filters;
+using App.Services.Products;
 using App.Services.Products.Create;
 using App.Services.Products.Update;
 using App.Services.Products.UpdateStock;
@@ -33,13 +35,16 @@ namespace App.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateProductRequest createProductRequest) => CreateActionResult(await productService.CreateAsync(createProductRequest));
 
+        [ServiceFilter(typeof(NotFoundFilter<Product, int>))]
         [HttpPut]
         public async Task<IActionResult> Update(UpdateProductRequest updateProductRequest) => CreateActionResult(await productService.UpdateAsync(updateProductRequest));
 
+        [ServiceFilter(typeof(NotFoundFilter<Product,int>))]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id) => CreateActionResult(await productService.DeleteAsync(id));
 
         //Eğer belirli varlıkları güncelleyeceksek patch kullanmak daha uygun olur ama put kullanmakta da her hangi bir sakınca yoktur
+        [ServiceFilter(typeof(NotFoundFilter<Product, int>))]
         [HttpPatch("stock")]
         public async Task<IActionResult> UpdateStock(UpdateProductStockRequest updateProductStockRequest) => CreateActionResult(await productService.UpdateStockAsync(updateProductStockRequest));
 

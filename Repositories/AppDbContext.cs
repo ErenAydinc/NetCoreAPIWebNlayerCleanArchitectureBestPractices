@@ -13,7 +13,7 @@ namespace App.Repositories
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //Burada oluşturulan configurasyon sınıfları direkt olarak alınıyor inherit ettiğimi sınıftan dolayı
+            //Burada oluşturulan configurasyon sınıfları direkt olarak alınıyor inherit ettiğimiz sınıftan dolayı
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             base.OnModelCreating(modelBuilder);

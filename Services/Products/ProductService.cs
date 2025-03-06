@@ -112,12 +112,7 @@ namespace App.Services.Products
 
             //Gard Clauses => If ile kontrolleri sağla valid vb. mümkün olduğunca else kullanma. 
 
-            var product = await productRepository.GetByIdAsync(request.Id);
-
-            if (product is null)
-                return ServiceResult.Fail("Product not found", HttpStatusCode.NotFound);
-
-            var isProductNameExist = await productRepository.Where(x => x.Name == request.Name && x.Id !=product.Id).AnyAsync();
+            var isProductNameExist = await productRepository.Where(x => x.Name == request.Name && x.Id !=request.Id).AnyAsync();
             if (isProductNameExist)
                 return ServiceResult.Fail("Product name is exists", HttpStatusCode.BadRequest);
 
@@ -127,7 +122,7 @@ namespace App.Services.Products
 
 
             //Burada elimizde zaten bir product nesnesi var (getbyid ile çektiğimiz) bu yüzden ekstra generic vermedik direkt parantez içinde tanımını yaptık.
-            product = mapper.Map(request,product);
+            var product = mapper.Map<Product>(request); 
 
             productRepository.Update(product);
             await unitOfWork.SaveChangeAsync();
@@ -137,11 +132,7 @@ namespace App.Services.Products
         public async Task<ServiceResult> DeleteAsync(int id)
         {
             var product = await productRepository.GetByIdAsync(id);
-
-            if (product is null)
-                return ServiceResult.Fail("Product not found", HttpStatusCode.NotFound);
-
-            productRepository.Delete(product);
+            productRepository.Delete(product!);
             await unitOfWork.SaveChangeAsync();
             return ServiceResult.Success(HttpStatusCode.NoContent);
         }

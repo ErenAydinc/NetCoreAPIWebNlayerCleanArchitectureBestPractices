@@ -15,13 +15,13 @@ namespace App.Repositories.Interceptors
 
         private static void AddBehavior(DbContext context, IAuditEntity auditEntity)
         {
-            auditEntity.Created=DateTime.Now;
+            auditEntity.Created = DateTime.Now;
             context.Entry(auditEntity).Property(x => x.Updated).IsModified = false;
         }
 
         private static void ModifiedBehavior(DbContext context, IAuditEntity auditEntity)
         {
-            auditEntity.Updated= DateTime.Now;
+            auditEntity.Updated = DateTime.Now;
             context.Entry(auditEntity).Property(x => x.Created).IsModified = false;
         }
         public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = new CancellationToken())
@@ -31,6 +31,8 @@ namespace App.Repositories.Interceptors
                 if (entityEntry.Entity is not IAuditEntity auditEntity)
                     continue;
 
+                if (entityEntry.State is not (EntityState.Added or EntityState.Modified))
+                    continue;
 
                 Behaviors[entityEntry.State](eventData.Context, auditEntity);
             }
