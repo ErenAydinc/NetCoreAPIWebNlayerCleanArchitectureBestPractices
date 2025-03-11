@@ -7,6 +7,12 @@
   </PropertyGroup>
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-		<ProjectReference Include="..\CleanArchitecture\src\core\App.Application\App.Application.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
+	  <PackageReference Include="MassTransit.RabbitMQ" Version="8.3.7" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\core\App.Application\App.Application.csproj" />
 	</ItemGroup>
 </Project>

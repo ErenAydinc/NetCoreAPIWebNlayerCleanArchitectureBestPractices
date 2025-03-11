@@ -15,10 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\App.Bus\App.Bus.csproj" />
-    <ProjectReference Include="..\App.Caching\App.Caching.csproj" />
-    <ProjectReference Include="..\App.Persistence\App.Persistence.csproj" />
-    <ProjectReference Include="..\CleanArchitecture\src\core\App.Application\App.Application.csproj" />
+    <ProjectReference Include="..\..\core\App.Application\App.Application.csproj" />
+    <ProjectReference Include="..\..\infrastructure\App.Bus\App.Bus.csproj" />
+    <ProjectReference Include="..\..\infrastructure\App.Caching\App.Caching.csproj" />
+    <ProjectReference Include="..\..\infrastructure\App.Persistence\App.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

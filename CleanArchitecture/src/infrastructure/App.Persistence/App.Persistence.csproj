@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CleanArchitecture\src\core\App.Application\App.Application.csproj" />
+    <ProjectReference Include="..\..\core\App.Application\App.Application.csproj" />
   </ItemGroup>
 
 </Project>
